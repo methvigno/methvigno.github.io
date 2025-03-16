@@ -170,20 +170,21 @@
 }
 
 .u-section-2 .u-layout-wrap-1 {
-  margin: 88px auto 0;
+  margin-top: 102px;
+  margin-bottom: 0;
 }
 
 .u-section-2 .u-image-1 {
   min-height: 729px;
   --radius: 50px;
-  background-position: 0% 100%, 50% 50%;
-  background-repeat: no-repeat, no-repeat;
-  background-image: url('images/disal.png'), linear-gradient(to bottom, rgba(242, 242, 242, 1), rgba(242, 242, 242, 1));
-  background-size: cover, cover;
+  background-position: 49.15% 80.81%;
+  background-repeat: no-repeat;
+  background-image: url("images/gt1.png");
+  background-size: auto 215%;
 }
 
 .u-section-2 .u-container-layout-1 {
-  padding: 30px;
+  padding: 28px 76px 30px 78px;
 }
 
 .u-section-2 .u-layout-cell-2 {
@@ -205,7 +206,7 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   font-size: 1rem;
-  margin: 40px 50px 0 auto;
+  margin: 26px 50px 0 auto;
 }
 
 .u-section-2 .u-btn-2 {
@@ -227,8 +228,6 @@
 
   .u-section-2 .u-layout-wrap-1 {
     margin-top: 22px;
-    margin-right: initial;
-    margin-left: initial;
   }
 
   .u-section-2 .u-image-1 {
@@ -264,14 +263,17 @@
   }
 
   .u-section-2 .u-layout-wrap-1 {
-    margin-top: 88px;
-    margin-right: initial;
-    margin-left: initial;
+    margin-top: 102px;
   }
 
   .u-section-2 .u-image-1 {
     background-position: 0% 50%, 50% 50%;
     min-height: 460px;
+  }
+
+  .u-section-2 .u-container-layout-1 {
+    padding-left: 30px;
+    padding-right: 30px;
   }
 
   .u-section-2 .u-layout-cell-2 {
@@ -307,8 +309,6 @@
 
   .u-section-2 .u-layout-wrap-1 {
     margin-top: -4px;
-    margin-right: initial;
-    margin-left: initial;
   }
 
   .u-section-2 .u-image-1 {
@@ -347,8 +347,6 @@
 
   .u-section-2 .u-layout-wrap-1 {
     margin-top: 20px;
-    margin-right: initial;
-    margin-left: initial;
   }
 
   .u-section-2 .u-image-1 {
@@ -631,7 +629,7 @@
   --radius: 50px;
   background-image: url('images/aerial.jpg'), linear-gradient(0deg, rgba(242, 242, 242, 1), rgba(242, 242, 242, 1));
   background-size: cover, cover;
-  background-position: 23.88% 50%, 29.34% 50%;
+  background-position: 48.37% 50%, 29.34% 50%;
 }
 
 .u-section-4 .u-container-layout-1 {
@@ -847,7 +845,7 @@
 .u-section-5 .u-image-1 {
   min-height: 688px;
   --radius: 50px;
-  background-position: 24.67% 50%, 50% 50%;
+  background-position: 30.59% 50%, 50% 50%;
   background-repeat: no-repeat, no-repeat;
   background-image: url('images/Capturedecran2024-01-10a10.10.25.png'), linear-gradient(to bottom, rgba(242, 242, 242, 1), rgba(242, 242, 242, 1));
   background-size: cover, cover;
@@ -1059,8 +1057,8 @@
   min-height: 729px;
   --radius: 50px;
   background-image: url('images/thymio.png'), linear-gradient(0deg, rgba(242, 242, 242, 1), rgba(242, 242, 242, 1));
-  background-size: auto 110%, cover;
-  background-position: 9.17% 0%, 50% 50%;
+  background-size: auto 110%, auto 110%;
+  background-position: 14.92% 0%, 50% 50%;
 }
 
 .u-section-6 .u-container-layout-1 {
@@ -1851,7 +1849,7 @@
   min-height: 729px;
   --radius: 50px;
   background-image: url('images/Screenshot2024-11-04at10-48-47Accueil.png'), linear-gradient(0deg, rgba(242, 242, 242, 1), rgba(242, 242, 242, 1));
-  background-size: auto 115%, auto 135%;
+  background-size: auto 115%;
   background-position: 13.3% 45.9%, 50% 50%;
 }
 
@@ -1896,7 +1894,6 @@
 
   .u-section-10 .u-image-1 {
     background-repeat: no-repeat, no-repeat;
-    background-size: auto 115%;
     min-height: 601px;
   }
 
