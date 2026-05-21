@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Marie Ethvignot — Robotics Software Engineer</title>
+<meta name="description" content="MSc Robotics Engineer (EPFL). Autonomous systems, simulation, and real-world robustness. NASA JPL, Rocket Factory Augsburg." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* engineering notebook palette */
+    --paper:        #f1ede4;
+    --paper-deep:   #e6e0d2;
+    --paper-shadow: #d8d1be;
+    --ink:          #1a1815;
+    --ink-soft:     #2c2825;
+    --ink-mute:     #6b645a;
+    --rule:         #b8b0a0;
+    --rule-soft:    #d0c9b9;
+    --accent:       #b8421f;     /* burnt sienna — terrain, machined */
+    --accent-soft:  #c95f3a;
+    --accent-blue:  #2c4a6b;     /* engineering blueprint */
+    --grid:         rgba(120, 110, 90, 0.10);
+
+    --serif:  "Instrument Serif", Georgia, serif;
+    --sans:   "IBM Plex Sans", system-ui, sans-serif;
+    --mono:   "IBM Plex Mono", ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* engineering graph paper backdrop */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+      linear-gradient(rgba(120, 110, 90, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(120, 110, 90, 0.04) 1px, transparent 1px);
+    background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* tape strips for personality */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at top right, rgba(184, 66, 31, 0.025), transparent 60%),
+      radial-gradient(ellipse at bottom left, rgba(44, 74, 107, 0.025), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* === NAV === */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: rgba(241, 237, 228, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule);
+    z-index: 100;
+  }
+  nav .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+  .brand {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .brand::before {
+    content: "//";
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .nav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  @media (max-width: 720px) {
+    .nav-links { display: none; }
+  }
+
+  /* === HERO === */
+  header.hero {
+    padding: 180px 0 120px;
+    position: relative;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  @media (max-width: 880px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  .hero-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hero-label::before {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1.name {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(3.2rem, 8vw, 6rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+  h1.name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-line {
+    font-family: var(--sans);
+    font-style: normal;
+    font-weight: 400;
+    font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+  }
+  .hero-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+  .hero-keywords span {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--ink-mute);
+    background: var(--paper-deep);
+    border: 1px solid var(--rule-soft);
+    padding: 4px 10px;
+    border-radius: 2px;
+  }
+
+  .hero-meta {
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--ink-mute);
+    padding-top: 24px;
+    border-top: 1px dashed var(--rule-soft);
+    margin-top: 32px;
+  }
+  .hero-meta strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* photo — clean, no rotation */
+  .photo-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+  .photo-frame {
+    position: relative;
+    border: 1px solid var(--rule);
+    background: #fdfaf4;
+    box-shadow: 0 2px 16px rgba(60, 50, 40, 0.10);
+  }
+  .photo-frame img {
+    width: 100%;
+    display: block;
+    filter: contrast(1.01) saturate(0.95);
+  }
+
+  /* === SECTION === */
+  section {
+    padding: 110px 0;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  .section-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(2.4rem, 5vw, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin-bottom: 56px;
+    max-width: 760px;
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* === ABOUT === */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 80px;
+    align-items: start;
+  }
+  @media (max-width: 800px) {
+    .about-grid { grid-template-columns: 1fr; gap: 36px; }
+  }
+  .about-meta dt {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-top: 20px;
+  }
+  .about-meta dt:first-child { margin-top: 0; }
+  .about-meta dd {
+    font-size: 14.5px;
+    color: var(--ink);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .about-prose p {
+    font-size: 16.5px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+    font-weight: 400;
+    max-width: 620px;
+  }
+  .about-prose p:last-child { margin-bottom: 0; }
+  .about-prose em {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--accent);
+    font-size: 1.05em;
+  }
+
+  /* === EXPERIENCE === */
+  .timeline { display: flex; flex-direction: column; }
+  .exp-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+    padding: 28px 0;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .exp-item:first-child { border-top: none; padding-top: 0; }
+  .exp-date {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    color: var(--ink-mute);
+    padding-top: 4px;
+    line-height: 1.5;
+  }
+  .exp-date strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .exp-body h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .exp-body .role {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+  .exp-body p {
+    color: var(--ink-soft);
+    line-height: 1.65;
+    font-size: 15px;
+  }
+  @media (max-width: 720px) {
+    .exp-item { grid-template-columns: 1fr; gap: 6px; padding: 24px 0; }
+    .exp-date { padding-top: 0; }
+  }
+
+  /* === PROJECTS === */
+  .projects-list { display: flex; flex-direction: column; }
+  .project {
+    padding: 36px 0;
+    border-top: 1px solid var(--rule-soft);
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 32px;
+    position: relative;
+  }
+  .project:first-child { border-top: none; padding-top: 0; }
+  .project-num {
+    font-family: var(--mono);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    padding-top: 6px;
+  }
+  .project-body h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.8rem;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  .project-body .ctx {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .project-body .ctx span {
+    color: var(--accent);
+  }
+  .project-body p {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 18px;
+  }
+  .project-tags span {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    padding: 4px 10px;
+    background: var(--paper-deep);
+    color: var(--ink-soft);
+    border-radius: 100px;
+  }
+  .project-links {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .project-links a {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .project-links a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .project-links a::before {
+    content: "→ ";
+    color: var(--accent);
+  }
+  @media (max-width: 640px) {
+    .project { grid-template-columns: 1fr; gap: 12px; }
+    .project-num { padding-top: 0; }
+  }
+
+  /* === PUBLICATIONS === */
+  .pubs-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  @media (max-width: 800px) {
+    .pubs-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+  .talk-photo-wrap {
+    transform: rotate(1.5deg);
+    transition: transform 0.4s;
+  }
+  .talk-photo-wrap:hover { transform: rotate(0); }
+  .talk-photo-frame {
+    background: #fdfaf4;
+    padding: 10px 10px 40px 10px;
+    box-shadow:
+      0 1px 2px rgba(0,0,0,0.04),
+      0 10px 28px rgba(60, 50, 40, 0.16);
+    position: relative;
+  }
+  .talk-photo-frame img {
+    width: 100%;
+    display: block;
+    filter: saturate(0.93);
+  }
+  .talk-photo-frame::after {
+    content: "KISS · CALTECH · NOV 2025";
+    position: absolute;
+    bottom: 14px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    color: var(--ink-mute);
+  }
+  .pubs-list { list-style: none; }
+  .pubs-list li {
+    padding: 18px 0;
+    border-top: 1px solid var(--rule-soft);
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 20px;
+    align-items: baseline;
+  }
+  .pubs-list li:first-child { border-top: none; padding-top: 0; }
+  .ptype {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .pbody {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .pbody strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .pbody a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+  }
+  .pbody a:hover { color: var(--accent-soft); }
+  @media (max-width: 600px) {
+    .pubs-list li { grid-template-columns: 1fr; gap: 4px; }
+  }
+
+  /* === SKILLS === */
+  .skills-block {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 56px;
+  }
+  @media (max-width: 720px) {
+    .skills-block { grid-template-columns: 1fr; gap: 24px; }
+  }
+  .skill-group h4 {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .skill-group p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+  .skill-group p span {
+    color: var(--ink-mute);
+  }
+
+  /* === CONTACT === */
+  #contact {
+    padding: 140px 0 100px;
+    border-bottom: none;
+  }
+  .contact-headline {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    line-height: 1.15;
+    max-width: 760px;
+    margin-bottom: 48px;
+  }
+  .contact-headline em {
+    color: var(--accent);
+  }
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 480px;
+  }
+  .contact-links a {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rule);
+    padding: 12px 0;
+    transition: color 0.2s, border-color 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .contact-links a:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .contact-links a::after {
+    content: "↗";
+    color: var(--accent);
+    font-size: 14px;
+  }
+
+  /* === FOOTER === */
+  footer {
+    padding: 32px 0;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--ink-mute);
+  }
+  footer .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  @media (max-width: 540px) {
+    footer .wrap { flex-direction: column; gap: 8px; }
+  }
+
+  /* === reveal motion === */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.85s cubic-bezier(0.25, 0.4, 0.25, 1),
+                transform 0.85s cubic-bezier(0.25, 0.4, 0.25, 1);
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal-stagger.in > * {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-stagger.in > *:nth-child(1) { transition-delay: 0s; }
+  .reveal-stagger.in > *:nth-child(2) { transition-delay: 0.08s; }
+  .reveal-stagger.in > *:nth-child(3) { transition-delay: 0.16s; }
+  .reveal-stagger.in > *:nth-child(4) { transition-delay: 0.24s; }
+  .reveal-stagger.in > *:nth-child(5) { transition-delay: 0.32s; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="#" class="brand">marie.ethvignot</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-label">MSc Robotics Engineer · EPFL · 2026</div>
+        <h1 class="name">Marie<br/><em>Ethvignot</em></h1>
+        <p class="hero-line">
+          Robotics software engineer. Autonomous systems, simulation, and real-world robustness.
+        </p>
+        <div class="hero-keywords">
+          <span>Autonomy</span>
+          <span>Simulation</span>
+          <span>Robotics Software</span>
+          <span>V&amp;V</span>
+          <span>Legged Robots</span>
+        </div>
+        <div class="hero-meta">
+          <strong>Recent:</strong> Master's thesis at <strong>NASA JPL</strong> on AI verification &amp; validation of autonomous systems.<br/>
+          <strong>Before:</strong> Software engineering internship at <strong>Rocket Factory Augsburg</strong>.<br/>
+          <strong>Based in</strong> Lausanne, Switzerland · French / EU citizen.
+        </div>
+      </div>
+      <div class="photo-wrap">
+        <div class="photo-frame">
+          <img src="./marie.png" alt="Marie Ethvignot" />
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ ABOUT ============ -->
+<section id="about" class="reveal">
+  <div class="wrap">
+    <span class="section-num">01 / About</span>
+    <h2 class="section-title">Algorithms that <em>survive contact</em> with the real world.</h2>
+    <div class="about-grid">
+      <dl class="about-meta">
+        <dt>Education</dt>
+        <dd>MSc Robotics, EPFL (2026)</dd>
+        <dt>Languages</dt>
+        <dd>French · English · German · Arabic</dd>
+        <dt>Stack</dt>
+        <dd>Python · C++ · MATLAB · ROS · PyTorch</dd>
+        <dt>Open to</dt>
+        <dd>Roles in robotics &amp; autonomy</dd>
+      </dl>
+      <div class="about-prose">
+        <p>
+          I work on robotics problems where simulation, decision-making, and software engineering
+          meet messy reality: autonomous systems that have to recover from things their designers
+          didn't anticipate, in environments that don't cooperate.
+        </p>
+        <p>
+          My recent thesis at NASA JPL was an exercise in exactly that. I built
+          <em>Gremlin</em>, an adversarial framework that stress-tests autonomous
+          decision-making in closed loop, surfacing failure modes before they reach hardware.
+        </p>
+        <p>
+          What drives me is building intelligent autonomous systems that are genuinely robust.
+          I've worked across control, mapping, perception, simulation, and V&amp;V on quadrupeds,
+          drones, mobile robots, spacecraft, and launch vehicles, always caring about whether
+          things work in practice, not just in theory.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE ============ -->
+<section id="experience" class="reveal">
+  <div class="wrap">
+    <span class="section-num">02 / Experience</span>
+    <h2 class="section-title">Where I've <em>built things</em>.</h2>
+    <div class="timeline">
+
+      <article class="exp-item">
+        <div class="exp-date">
+          <strong>Oct 2025 — Apr 2026</strong>
+          Pasadena, CA
+        </div>
+        <div class="exp-body">
+          <h3>NASA Jet Propulsion Laboratory (JPL), Caltech</h3>
+          <div class="role">Master's Thesis · Mobile Robotics Group</div>
+          <p>
+            Developed Gremlin, an adversarial AI framework that generates
+            statistically plausible disturbances to stress-test autonomous
+            decision-making in closed loop, exposing failure cases that
+            hand-designed test scenarios tend to miss. Extended NASA JPL's
+            high-fidelity mission simulator (MuSCAT, MATLAB) with new physical
+            models, integrated the V&amp;V framework end-to-end, and modeled a
+            full reference mission. Worked in a shared Git repository within a
+            multi-team development environment.
+          </p>
+        </div>
+      </article>
+
+      <article class="exp-item">
+        <div class="exp-date">
+          <strong>Feb 2025 — Jul 2025</strong>
+          Augsburg, Germany
+        </div>
+        <div class="exp-body">
+          <h3>Rocket Factory Augsburg (RFA)</h3>
+          <div class="role">Software Engineer Intern · Mission Analysis</div>
+          <p>
+            Developed automated Python tools for mission-analysis pre- and
+            post-processing, integrated into RFA's Docker-based CI/CD pipelines
+            for Monte Carlo simulations of launch-vehicle performance.
+            Implemented additional analysis tooling for telemetry visibility and
+            flight-termination decision logic, used in operational mission
+            planning. Collaborated across teams in a shared Git repository.
+          </p>
+        </div>
+      </article>
+
+      <article class="exp-item">
+        <div class="exp-date">
+          <strong>Sep 2022 — Feb 2025</strong>
+          Lausanne, Switzerland
+        </div>
+        <div class="exp-body">
+          <h3>Swiss Federal Institute of Technology (EPFL)</h3>
+          <div class="role">Teaching Assistant</div>
+          <p>
+            Supervised exercise sessions in Numerical Analysis, Materials
+            Science, and Microfabrication. Coached students on coding and
+            computational problem-solving in Python and MATLAB across three
+            courses.
+          </p>
+        </div>
+      </article>
+
+      <article class="exp-item">
+        <div class="exp-date">
+          <strong>Jul 2023 — Sep 2023</strong>
+          Paris, France
+        </div>
+        <div class="exp-body">
+          <h3>ARESIA</h3>
+          <div class="role">Engineering Assistant</div>
+          <p>
+            Developed Python automation tooling for post-processing of
+            finite-element simulations (ANSYS Mechanical), improving the
+            efficiency and reproducibility of structural validation workflows
+            for aerospace components.
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROJECTS ============ -->
+<section id="projects" class="reveal">
+  <div class="wrap">
+    <span class="section-num">03 / Projects</span>
+    <h2 class="section-title">Selected <em>research &amp; engineering</em>.</h2>
+    <div class="projects-list">
+
+      <article class="project">
+        <div class="project-num">P/01</div>
+        <div class="project-body">
+          <h3>Adversarial AI for V&amp;V of Autonomous Systems</h3>
+          <div class="ctx">NASA JPL · Master's Thesis · <span>2025 — 2026</span></div>
+          <p>
+            Designed Gremlin, an adversarial AI framework that generates
+            statistically plausible continuous disturbances to stress-test
+            autonomous decision-making in closed loop. Integrated end-to-end into
+            NASA JPL's MuSCAT simulator, with custom physical models and a
+            full-mission reference scenario, surfacing failure modes that
+            handcrafted test scenarios tend to miss.
+          </p>
+          <div class="project-tags">
+            <span>Autonomy</span><span>V&amp;V</span><span>MATLAB</span><span>Adversarial AI</span><span>Closed-loop sim</span>
+          </div>
+          <div class="project-links">
+            <a href="#publications">See paper</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="project-num">P/02</div>
+        <div class="project-body">
+          <h3>Quadruped Locomotion: CPG &amp; Reinforcement Learning</h3>
+          <div class="ctx">EPFL · Legged Robots · <span>2024</span></div>
+          <p>
+            Implemented and compared CPG-based and reinforcement learning (PPO,
+            SAC) locomotion policies for a quadruped in simulation. Designed
+            reward shaping for locomotion stability and velocity tracking, and
+            analysed the trade-offs between hand-crafted and learned control
+            policies.
+          </p>
+          <div class="project-tags">
+            <span>Legged Robots</span><span>Reinforcement Learning</span><span>PPO</span><span>SAC</span><span>PyBullet</span>
+          </div>
+          <div class="project-links">
+            <a href="https://methvigno.github.io/files/Legged_Robots_Assignment_2.pdf" target="_blank" rel="noopener">Report</a>
+            <a href="https://github.com/methvigno/legged_robots/tree/master" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="project-num">P/03</div>
+        <div class="project-body">
+          <h3>Crazyflie Autonomous Mini-Drone — Sim-to-Real</h3>
+          <div class="ctx">EPFL · Aerial Robotics · <span>2024</span></div>
+          <p>
+            Programmed a Crazyflie mini-drone to autonomously navigate, avoid
+            obstacles, and take off from and land on specific pads. Developed
+            first in Webots simulation, then transferred to real hardware,
+            bridging the sim-to-real gap end-to-end.
+          </p>
+          <div class="project-tags">
+            <span>Sim-to-Real</span><span>Aerial Robotics</span><span>Webots</span><span>Navigation</span><span>Python</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/methvigno/aerial_robotics/tree/master" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="project-num">P/04</div>
+        <div class="project-body">
+          <h3>Probabilistic Gas Mapping &amp; Source Localization</h3>
+          <div class="ctx">EPFL · DISAL Lab · <span>2024 — 2025</span></div>
+          <p>
+            Implemented Gaussian Markov Random Field models with Gaussian Belief
+            Propagation for offline reconstruction of gas concentration fields
+            from logged mobile-robot measurements, enabling gas-plume modeling
+            and source localization. Benchmarked GBP against kernel-based methods;
+            GBP performed substantially better under sparse measurements.
+          </p>
+          <div class="project-tags">
+            <span>Probabilistic Inference</span><span>Mobile Robots</span><span>ROS</span><span>Python</span><span>GMRF</span>
+          </div>
+          <div class="project-links">
+            <a href="https://methvigno.github.io/files/Report.pdf" target="_blank" rel="noopener">Report</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="project-num">P/05</div>
+        <div class="project-body">
+          <h3>Robust Visual Odometry under Degraded Conditions</h3>
+          <div class="ctx">EPFL · AQUA Lab · <span>2024</span></div>
+          <p>
+            Studied the robustness of feature-based visual odometry algorithms
+            under conditions that break standard pipelines — dynamic occlusions,
+            low-texture surfaces, and degraded visibility — failure modes
+            relevant to robots operating in unstructured environments. Built
+            custom degraded datasets including synthetic fog injection on
+            Mars-analog terrain sequences.
+          </p>
+          <div class="project-tags">
+            <span>Perception</span><span>Visual Odometry</span><span>Computer Vision</span><span>Python</span>
+          </div>
+          <div class="project-links">
+            <a href="https://methvigno.github.io/files/Semester_project-8-aveccompression.pdf" target="_blank" rel="noopener">Report</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="project-num">P/06</div>
+        <div class="project-body">
+          <h3>Model Predictive Control for a Rocket Prototype</h3>
+          <div class="ctx">EPFL · Control · <span>2024</span></div>
+          <p>
+            Designed and implemented sub-system and nonlinear MPC controllers
+            (MATLAB, CasADi) for trajectory tracking of a rocket prototype
+            using drone-racing propellers. Addressed offset-free tracking
+            under mass variation and control delays.
+          </p>
+          <div class="project-tags">
+            <span>MPC</span><span>Nonlinear Control</span><span>MATLAB</span><span>CasADi</span>
+          </div>
+          <div class="project-links">
+            <a href="https://methvigno.github.io/files/MPC.pdf" target="_blank" rel="noopener">Report</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ PUBLICATIONS ============ -->
+<section id="publications" class="reveal">
+  <div class="wrap">
+    <span class="section-num">04 / Publications &amp; Talks</span>
+    <h2 class="section-title">Things I've <em>written</em>.</h2>
+    <div class="pubs-grid">
+      <div class="talk-photo-wrap">
+        <div class="talk-photo-frame">
+          <img src="./kiss-workshop.png" alt="Presenting at KISS Workshop, Caltech, November 2025" />
+        </div>
+      </div>
+      <ul class="pubs-list">
+        <li>
+          <span class="ptype">1st author</span>
+          <span class="pbody">
+            <strong>Gremlin: AI-Based Adversarial Stress-Testing for Autonomous Space Systems.</strong>
+            M. Ethvignot, M. Ono, R. Rieber. Paper &amp; poster, ICRA 2026 Workshop on Intelligent Space Robotics, accepted.
+          </span>
+        </li>
+        <li>
+          <span class="ptype">1st author</span>
+          <span class="pbody">
+            <strong>AI-Assisted V&amp;V for Adaptive Space Systems: A Search-in-the-Loop Approach.</strong>
+            M. Ethvignot, M. Ono, R. Rieber. Technical paper &amp; presentation, AIAA ASCEND 2026 — Space Autonomy, AI and Robotics session, in proceedings.
+          </span>
+        </li>
+        <li>
+          <span class="ptype">Co-author</span>
+          <span class="pbody">
+            <strong>Planetary Exploration 3.0: A Roadmap for Software-Defined, Radically Adaptive Space Systems.</strong>
+            M. Ono, D. Selva, M. Cable, M. Ethvignot et al. AIAA ASCEND 2026, in proceedings.
+            <a href="https://arxiv.org/abs/2604.20910" target="_blank" rel="noopener">arXiv</a>
+          </span>
+        </li>
+        <li>
+          <span class="ptype">Talk · poster</span>
+          <span class="pbody">
+            One-shot Outer Solar System Exploration Workshop, Keck Institute for Space Studies (KISS), Caltech. Nov. 2025.
+            <a href="https://www.kiss.caltech.edu/workshops/oneshot/oneshot.html" target="_blank" rel="noopener">Workshop page</a>
+          </span>
+        </li>
+        <li>
+          <span class="ptype">Invited</span>
+          <span class="pbody">
+            KISS One-shot Outer Solar System Exploration Workshop, follow-up session. Caltech, Apr. 2026.
+            <a href="https://www.kiss.caltech.edu/workshops/oneshot/oneshot2.html" target="_blank" rel="noopener">Workshop page</a>
+          </span>
+        </li>
+        <li>
+          <span class="ptype">Reviewer</span>
+          <span class="pbody">
+            Journal of Aerospace Information Systems (AIAA).
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section id="skills" class="reveal">
+  <div class="wrap">
+    <span class="section-num">05 / Skills</span>
+    <h2 class="section-title">Stack &amp; <em>capabilities</em>.</h2>
+    <div class="skills-block">
+      <div class="skill-group">
+        <h4>Programming</h4>
+        <p>Python · MATLAB / Simulink · C++ · Bash</p>
+      </div>
+      <div class="skill-group">
+        <h4>Robotics &amp; Simulation</h4>
+        <p>ROS <span>(basics)</span> · PyTorch · PyBullet · Webots · CATIA · Reinforcement Learning <span>(PPO, SAC)</span> · CPG · Visual Odometry · Probabilistic Mapping</p>
+      </div>
+      <div class="skill-group">
+        <h4>Software &amp; Tooling</h4>
+        <p>Git · Linux · Docker · CI/CD pipelines · Monte Carlo analysis · Mission &amp; closed-loop simulation</p>
+      </div>
+      <div class="skill-group">
+        <h4>Languages</h4>
+        <p>French <span>(native)</span> · English <span>(bilingual)</span> · German <span>(advanced)</span> · Arabic <span>(beginner)</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+  <div class="wrap">
+    <span class="section-num">06 / Contact</span>
+    <p class="contact-headline">
+      Looking for my next role in <em>robotics, autonomy, and simulation</em>.
+      Open to conversations.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:marieethvignot@gmail.com">marieethvignot@gmail.com</a>
+      <a href="https://linkedin.com/in/marie-ethvignot" target="_blank" rel="noopener">linkedin.com/in/marie-ethvignot</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Marie Ethvignot</span>
+    <span>Built with care · Lausanne</span>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
